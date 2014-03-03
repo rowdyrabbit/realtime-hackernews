@@ -1,0 +1,26 @@
+<html>
+<head>
+    <title></title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.6/angular.min.js'></script>
+    <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+    <script src='https://cdn.firebase.com/libs/angularfire/0.7.0/angularfire.min.js'></script>
+</head>
+<body ng-controller="MainController">
+
+    <div id="messagesDiv">
+        <div ng-repeat="msg in messages"><em>{{msg.from}}</em>: {{msg.body}}</div>
+    </div>
+    <script>
+        var app = angular.module("myapp", ["firebase"]);
+        function MainController($scope, $firebase) {
+            var ref = new Firebase("https://sbkpof432ec.firebaseio-demo.com/");
+            $scope.messages = $firebase(ref);
+            $scope.addMessage = function(e) {
+                if (e.keyCode != 13) return;
+                $scope.messages.$add({from: $scope.name, body: $scope.msg});
+                $scope.msg = "";
+            };
+        }
+    </script>
+</body>
+</html>
